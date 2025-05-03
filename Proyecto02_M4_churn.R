@@ -1,10 +1,9 @@
 # ————————————————
 # Instrucciones de Ejecución:
 # 1) Reiniciar la sesión de R o limpia el entorno (Session > Restart R en RStudio).
-# 2) Cargar y ejecuta el script completo de principio a fin (no línea a línea suelta).
+# 2) Cargar y ejecuta el script completo de principio a fin.
 # 3) Limpiar cualquier objeto de la memoria.
 # ————————————————
-# Cargar librerías necesarias
 # Cargar librerías necesarias
 library(dplyr)
 library(caret)
@@ -16,7 +15,6 @@ library(tidyr)
 library(ggplot2)
 
 # Cargar datos y preprocesamiento
-# Mejor: usar ruta relativa
 datos <- read.csv("~/MIADAS/m04/R_Examples/WA_Fn-UseC_-Telco-Customer-Churn.csv", stringsAsFactors = TRUE)
 
 datos_clean <- datos %>%
@@ -25,7 +23,7 @@ datos_clean <- datos %>%
     TotalCharges = as.numeric(as.character(TotalCharges))
   ) %>%
   na.omit() %>%
-  # Mejor: asegurar que todas las variables categóricas sean factor
+  # Asegurar que todas las variables categóricas sean factor
   mutate_if(is.character, as.factor)
 
 # Asegurar Churn como factor "No"/"Yes"
@@ -93,7 +91,6 @@ tabla_resultados <- data.frame(
 print(tabla_resultados)
 
 # Gráfico comparativo
-# Mejor: usar tidyr::pivot_longer en vez de reshape2::melt (opcional)
 tabla_resultados_long <- tabla_resultados %>%
   pivot_longer(-Modelo, names_to = "Métrica", values_to = "Valor")
 ggplot(tabla_resultados_long, aes(x = Modelo, y = Valor, fill = Modelo)) +
